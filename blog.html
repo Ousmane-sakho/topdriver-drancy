@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Conseils permis de conduire, code de la route, financement CPF — Le blog de l'auto-école Top Driver Drancy. Astuces, guides et actualités pour réussir votre permis." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="blog.html" />
+  <meta property="og:title" content="Blog — Conseils Permis & Code de la Route | Top Driver Drancy" />
+  <meta property="og:description" content="Retrouvez tous nos conseils pour réussir votre permis de conduire à Drancy : astuces code, financement CPF, témoignages et guides pratiques." />
+  <meta property="og:type" content="website" />
+  <title>Blog — Conseils Permis & Code de la Route | Top Driver Drancy</title>
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    /* ── BLOG INDEX ─────────────────────────────────── */
+    .blog-section {
+      padding-block: 4rem 5rem;
+    }
+
+    /* Filtres catégories */
+    .blog-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: 2.5rem;
+    }
+    .blog-filter {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .45rem 1rem;
+      border-radius: 999px;
+      border: 1.5px solid var(--gray-200);
+      background: var(--white);
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      cursor: pointer;
+      transition: background .2s, border-color .2s, color .2s;
+      text-decoration: none;
+    }
+    .blog-filter:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+    .blog-filter.is-active {
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--white);
+    }
+    .blog-filter__dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .7;
+    }
+
+    /* Grille articles */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+    }
+
+    /* Card article */
+    .article-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow .25s, transform .25s;
+    }
+    .article-card:hover {
+      box-shadow: 0 12px 40px rgba(0,0,0,.1);
+      transform: translateY(-4px);
+    }
+    .article-card--featured {
+      grid-column: span 2;
+    }
+    .article-card--featured .article-card__thumb {
+      height: 280px;
+    }
+
+    .article-card__thumb {
+      position: relative;
+      height: 200px;
+      background: var(--off-white);
+      overflow: hidden;
+    }
+    .article-card__thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s ease;
+    }
+    .article-card:hover .article-card__thumb img {
+      transform: scale(1.04);
+    }
+    .article-card__thumb-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+    .article-card__category {
+      position: absolute;
+      top: .875rem;
+      left: .875rem;
+      padding: .3rem .75rem;
+      border-radius: 999px;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .cat--permis-b   { background: rgba(220,38,38,.9);  color: #fff; }
+    .cat--code       { background: rgba(234,179,8,.92); color: #1c1200; }
+    .cat--moto       { background: rgba(15,118,110,.9); color: #fff; }
+    .cat--cpf        { background: rgba(79,70,229,.9);  color: #fff; }
+    .cat--conseils   { background: rgba(30,30,30,.82);  color: #fff; }
+
+    .article-card__body {
+      padding: 1.25rem 1.375rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .article-card__meta {
+      display: flex;
+      align-items: center;
+      gap: .625rem;
+      font-size: .75rem;
+      color: var(--gray-400);
+      margin-bottom: .75rem;
+    }
+    .article-card__meta-sep { opacity: .4; }
+    .article-card__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--black);
+      line-height: 1.4;
+      margin-bottom: .5rem;
+      text-decoration: none;
+      display: block;
+    }
+    .article-card--featured .article-card__title {
+      font-size: 1.2rem;
+    }
+    .article-card__title:hover { color: var(--red); }
+    .article-card__excerpt {
+      font-size: .85rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+      flex: 1;
+      margin-bottom: 1.1rem;
+    }
+    .article-card__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: .875rem;
+      border-top: 1px solid var(--gray-200);
+    }
+    .article-card__read-time {
+      font-size: .75rem;
+      color: var(--gray-400);
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+    }
+    .article-card__link {
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--red);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+      transition: gap .2s;
+    }
+    .article-card__link:hover { gap: .6rem; }
+
+    /* Pagination */
+    .blog-pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: .5rem;
+      margin-top: 3.5rem;
+    }
+    .blog-pagination__btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      border: 1.5px solid var(--gray-200);
+      background: var(--white);
+      font-size: .875rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .blog-pagination__btn:hover,
+    .blog-pagination__btn.is-active {
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--white);
+    }
+
+    /* CTA Newsletter */
+    .blog-newsletter {
+      background: var(--black);
+      border-radius: 18px;
+      padding: 2.5rem;
+      text-align: center;
+      margin-top: 4rem;
+    }
+    .blog-newsletter__eyebrow {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: .5rem;
+    }
+    .blog-newsletter__title {
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: .5rem;
+    }
+    .blog-newsletter__sub {
+      font-size: .9rem;
+      color: rgba(255,255,255,.55);
+      margin-bottom: 1.5rem;
+    }
+    .blog-newsletter__form {
+      display: flex;
+      gap: .5rem;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .blog-newsletter__input {
+      flex: 1;
+      padding: .7rem 1rem;
+      border-radius: 8px;
+      border: 1.5px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.08);
+      color: var(--white);
+      font-size: .875rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .blog-newsletter__input::placeholder { color: rgba(255,255,255,.35); }
+    .blog-newsletter__input:focus { border-color: var(--red); }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .blog-grid { grid-template-columns: repeat(2, 1fr); }
+      .article-card--featured { grid-column: span 2; }
+    }
+    @media (max-width: 600px) {
+      .blog-grid { grid-template-columns: 1fr; }
+      .article-card--featured { grid-column: span 1; }
+      .article-card--featured .article-card__thumb { height: 220px; }
+      .blog-newsletter__form { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SECTION : HEADER -->
+<header class="site-header" role="banner">
+  <div class="container site-header__inner">
+    <a href="index.html" class="site-header__logo" aria-label="Top Driver Drancy — Accueil">
+      <img src="assets/logo-topdriver.png" alt="Top Driver — Auto-École Drancy" width="240" height="90" />
+    </a>
+    <nav class="site-nav" aria-label="Navigation principale">
+      <a href="index.html" class="site-nav__link">Accueil</a>
+      <a href="permis-auto.html" class="site-nav__link">Permis Auto</a>
+      <a href="permis-moto.html" class="site-nav__link">Permis Moto</a>
+      <a href="code-route.html" class="site-nav__link">Code de la Route</a>
+      <a href="financement-cpf.html" class="site-nav__link">Financement CPF</a>
+      <a href="blog.html" class="site-nav__link is-active">Blog</a>
+      <a href="contact.html" class="site-nav__link">Contact</a>
+    </nav>
+    <div class="site-header__cta">
+      <a href="contact.html" class="btn btn--primary">Inscription</a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle-btn" aria-controls="mobile-nav" aria-expanded="false" aria-label="Ouvrir le menu">
+      <span class="nav-toggle__bar" aria-hidden="true"></span>
+      <span class="nav-toggle__bar" aria-hidden="true"></span>
+      <span class="nav-toggle__bar" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<!-- SECTION : NAVIGATION MOBILE -->
+<nav class="mobile-nav" id="mobile-nav" aria-label="Navigation mobile" aria-hidden="true">
+  <ul class="mobile-nav__list">
+    <li><a href="index.html" class="mobile-nav__link">Accueil</a></li>
+    <li><a href="permis-auto.html" class="mobile-nav__link">Permis Auto</a></li>
+    <li><a href="permis-moto.html" class="mobile-nav__link">Permis Moto</a></li>
+    <li><a href="code-route.html" class="mobile-nav__link">Code de la Route</a></li>
+    <li><a href="financement-cpf.html" class="mobile-nav__link">Financement CPF</a></li>
+    <li><a href="blog.html" class="mobile-nav__link is-active">Blog</a></li>
+    <li><a href="contact.html" class="mobile-nav__link">Contact</a></li>
+  </ul>
+  <a href="contact.html" class="btn btn--primary" style="width:100%;justify-content:center;">Inscription</a>
+</nav>
+
+<main>
+
+  <!-- SECTION : HERO INTERNE -->
+  <section class="page-hero" aria-labelledby="blog-title">
+    <div class="breadcrumb" style="background:transparent;border-bottom-color:rgba(255,255,255,.1);">
+      <div class="container">
+        <ol class="breadcrumb__list" aria-label="Fil d'Ariane">
+          <li class="breadcrumb__item"><a href="index.html">Accueil</a></li>
+          <li class="breadcrumb__sep" aria-hidden="true">/</li>
+          <li class="breadcrumb__item" aria-current="page">Blog</li>
+        </ol>
+      </div>
+    </div>
+    <div class="container" style="padding-top:2rem;">
+      <span class="eyebrow page-hero__eyebrow">Conseils & Actualités</span>
+      <h1 class="page-hero__title" id="blog-title">Le Blog Top Driver</h1>
+      <p class="page-hero__sub">
+        Guides pratiques, astuces de conduite, infos financement CPF et actualités
+        de votre auto-école à Drancy. Tout ce qu'il faut savoir pour réussir votre permis.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION : ARTICLES -->
+  <section class="blog-section" aria-labelledby="articles-title">
+    <div class="container">
+
+      <!-- Filtres catégories -->
+      <div class="blog-filters" role="list" aria-label="Filtrer par catégorie">
+        <a href="#" class="blog-filter is-active" role="listitem">Tous les articles</a>
+        <a href="#" class="blog-filter" role="listitem">
+          <span class="blog-filter__dot" style="background:var(--red);"></span>Permis B
+        </a>
+        <a href="#" class="blog-filter" role="listitem">
+          <span class="blog-filter__dot" style="background:#eab308;"></span>Code de la Route
+        </a>
+        <a href="#" class="blog-filter" role="listitem">
+          <span class="blog-filter__dot" style="background:#0f766e;"></span>Permis Moto
+        </a>
+        <a href="#" class="blog-filter" role="listitem">
+          <span class="blog-filter__dot" style="background:#4f46e5;"></span>Financement CPF
+        </a>
+        <a href="#" class="blog-filter" role="listitem">
+          <span class="blog-filter__dot" style="background:var(--gray-600);"></span>Conseils
+        </a>
+      </div>
+
+      <!-- Grille articles -->
+      <div class="blog-grid">
+
+        <!-- Article 1 — À la une (featured) -->
+        <article class="article-card article-card--featured">
+          <div class="article-card__thumb">
+            <div class="article-card__thumb-placeholder" style="background:linear-gradient(135deg,#1a0a0a 0%,#4a0a0a 100%);">🚗</div>
+            <span class="article-card__category cat--permis-b">Permis B</span>
+          </div>
+          <div class="article-card__body">
+            <div class="article-card__meta">
+              <time datetime="2026-03-10">10 mars 2026</time>
+              <span class="article-card__meta-sep">·</span>
+              <span>Par l'équipe Top Driver</span>
+            </div>
+            <a href="blog/permis-b-drancy-2026.html" class="article-card__title">
+              Permis B à Drancy en 2026 : tout ce qu'il faut savoir avant de s'inscrire
+            </a>
+            <p class="article-card__excerpt">
+              Nouvelles règles d'examen, évolution des tarifs, financement CPF élargi…
+              On fait le point sur tout ce qui change pour les candidats au permis de conduire
+              cette année et comment mettre toutes les chances de votre côté.
+            </p>
+            <div class="article-card__footer">
+              <span class="article-card__read-time">⏱ 5 min de lecture</span>
+              <a href="blog/permis-b-drancy-2026.html" class="article-card__link">Lire l'article →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="article-card">
+          <div class="article-card__thumb">
+            <div class="article-card__thumb-placeholder" style="background:linear-gradient(135deg,#1c1200 0%,#3d2a00 100%);">📋</div>
+            <span class="article-card__category cat--code">Code de la Route</span>
+          </div>
+          <div class="article-card__body">
+            <div class="article-card__meta">
+              <time datetime="2026-02-28">28 fév. 2026</time>
+              <span class="article-card__meta-sep">·</span>
+              <span>5 min</span>
+            </div>
+            <a href="blog/reussir-code-route-drancy.html" class="article-card__title">
+              40 questions, 35 bonnes réponses : notre méthode pour ne pas rater le code
+            </a>
+            <p class="article-card__excerpt">
+              Le seuil de 35/40 fait peur à beaucoup de candidats. Voici les 8 thèmes les plus piégeux et nos astuces pour les maîtriser avant l'examen.
+            </p>
+            <div class="article-card__footer">
+              <span class="article-card__read-time">⏱ 5 min de lecture</span>
+              <a href="blog/reussir-code-route-drancy.html" class="article-card__link">Lire l'article →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article 3 -->
+        <article class="article-card">
+          <div class="article-card__thumb">
+            <div class="article-card__thumb-placeholder" style="background:linear-gradient(135deg,#0c0c1e 0%,#1e1b4b 100%);">💳</div>
+            <span class="article-card__category cat--cpf">Financement CPF</span>
+          </div>
+          <div class="article-card__body">
+            <div class="article-card__meta">
+              <time datetime="2026-02-14">14 fév. 2026</time>
+              <span class="article-card__meta-sep">·</span>
+              <span>4 min</span>
+            </div>
+            <a href="blog/financer-permis-cpf-drancy.html" class="article-card__title">
+              Utiliser son CPF pour le permis : mode d'emploi en 4 étapes simples
+            </a>
+            <p class="article-card__excerpt">
+              Vous ne savez pas par où commencer pour financer votre permis avec votre compte formation ? On vous explique tout, pas à pas, sans jargon.
+            </p>
+            <div class="article-card__footer">
+              <span class="article-card__read-time">⏱ 4 min de lecture</span>
+              <a href="blog/financer-permis-cpf-drancy.html" class="article-card__link">Lire l'article →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article 4 -->
+        <article class="article-card">
+          <div class="article-card__thumb">
+            <div class="article-card__thumb-placeholder" style="background:linear-gradient(135deg,#061a0f 0%,#064e3b 100%);">🏍️</div>
+            <span class="article-card__category cat--moto">Permis Moto</span>
+          </div>
+          <div class="article-card__body">
+            <div class="article-card__meta">
+              <time datetime="2026-01-30">30 jan. 2026</time>
+              <span class="article-card__meta-sep">·</span>
+              <span>6 min</span>
+            </div>
+            <a href="blog/permis-moto-a2-ou-a-drancy.html" class="article-card__title">
+              Permis A2 ou permis A : lequel choisir selon votre profil ?
+            </a>
+            <p class="article-card__excerpt">
+              Puissance limitée à 35 kW ou accès illimité ? On compare les deux catégories moto pour vous aider à choisir la formation adaptée à vos besoins.
+            </p>
+            <div class="article-card__footer">
+              <span class="article-card__read-time">⏱ 6 min de lecture</span>
+              <a href="blog/permis-moto-a2-ou-a-drancy.html" class="article-card__link">Lire l'article →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article 5 -->
+        <article class="article-card">
+          <div class="article-card__thumb">
+            <div class="article-card__thumb-placeholder" style="background:linear-gradient(135deg,#0f0f0f 0%,#2a2a2a 100%);">🧠</div>
+            <span class="article-card__category cat--conseils">Conseils</span>
+          </div>
+          <div class="article-card__body">
+            <div class="article-card__meta">
+              <time datetime="2026-01-15">15 jan. 2026</time>
+              <span class="article-card__meta-sep">·</span>
+              <span>4 min</span>
+            </div>
+            <a href="blog/gerer-stress-examen-conduite.html" class="article-card__title">
+              Stress avant l'examen de conduite : 6 techniques pour rester calme le jour J
+            </a>
+            <p class="article-card__excerpt">
+              L'examen pratique est source d'anxiété pour beaucoup de candidats. Nos moniteurs partagent leurs meilleures techniques pour aborder le jour J sereinement.
+            </p>
+            <div class="article-card__footer">
+              <span class="article-card__read-time">⏱ 4 min de lecture</span>
+              <a href="blog/gerer-stress-examen-conduite.html" class="article-card__link">Lire l'article →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article 6 -->
+        <article class="article-card">
+          <div class="article-card__thumb">
+            <div class="article-card__thumb-placeholder" style="background:linear-gradient(135deg,#1a0a0a 0%,#7f1d1d 100%);">🛣️</div>
+            <span class="article-card__category cat--permis-b">Permis B</span>
+          </div>
+          <div class="article-card__body">
+            <div class="article-card__meta">
+              <time datetime="2025-12-20">20 déc. 2025</time>
+              <span class="article-card__meta-sep">·</span>
+              <span>7 min</span>
+            </div>
+            <a href="blog/permis-manuel-ou-automatique-drancy.html" class="article-card__title">
+              Boîte manuelle ou automatique : quel permis choisir en 2026 ?
+            </a>
+            <p class="article-card__excerpt">
+              Le permis automatique est de plus en plus populaire mais reste encore limité. On vous aide à choisir selon votre usage, votre budget et votre profil de conducteur.
+            </p>
+            <div class="article-card__footer">
+              <span class="article-card__read-time">⏱ 7 min de lecture</span>
+              <a href="blog/permis-manuel-ou-automatique-drancy.html" class="article-card__link">Lire l'article →</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Pagination -->
+      <nav class="blog-pagination" aria-label="Pagination des articles">
+        <a href="#" class="blog-pagination__btn" aria-label="Page précédente">←</a>
+        <a href="#" class="blog-pagination__btn is-active" aria-current="page">1</a>
+        <a href="#" class="blog-pagination__btn">2</a>
+        <a href="#" class="blog-pagination__btn">3</a>
+        <a href="#" class="blog-pagination__btn" aria-label="Page suivante">→</a>
+      </nav>
+
+      <!-- Newsletter CTA -->
+      <div class="blog-newsletter">
+        <p class="blog-newsletter__eyebrow">Restez informé</p>
+        <h2 class="blog-newsletter__title">Un conseil par semaine dans votre boîte mail</h2>
+        <p class="blog-newsletter__sub">Astuces code, conseils conduite et actus permis — sans spam, désabonnement en un clic.</p>
+        <form class="blog-newsletter__form" action="#" method="post" novalidate>
+          <input
+            class="blog-newsletter__input"
+            type="email"
+            name="email"
+            placeholder="votre@email.fr"
+            autocomplete="email"
+            required
+            aria-label="Votre adresse e-mail"
+          />
+          <button type="submit" class="btn btn--primary">S'abonner</button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- SECTION : PIED DE PAGE -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div>
+        <a href="index.html" class="site-footer__logo" aria-label="Accueil">
+          <img src="assets/logo-topdriver.png" alt="Top Driver Drancy" width="220" height="88" />
+        </a>
+        <p class="site-footer__tagline">Auto-école certifiée Qualiopi à Drancy depuis 2012. Permis B, Moto, Code. Éligible CPF.</p>
+        <div class="site-footer__social">
+          <a href="https://www.instagram.com/topdriverdrancy/" class="site-footer__social-link" aria-label="Instagram" target="_blank" rel="noopener">📷</a>
+          <a href="https://www.facebook.com/TopDriverDrancy/" class="site-footer__social-link" aria-label="Facebook" target="_blank" rel="noopener">f</a>
+        </div>
+      </div>
+      <div>
+        <p class="site-footer__col-title">Formations</p>
+        <ul class="site-footer__links">
+          <li><a href="permis-auto.html" class="site-footer__link">Permis B Manuel &amp; Auto</a></li>
+          <li><a href="permis-moto.html" class="site-footer__link">Permis Moto A2 / A</a></li>
+          <li><a href="code-route.html" class="site-footer__link">Code de la Route</a></li>
+          <li><a href="permis-moto.html" class="site-footer__link">Permis AM / BSR</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-footer__col-title">Informations</p>
+        <ul class="site-footer__links">
+          <li><a href="financement-cpf.html" class="site-footer__link">Financement CPF</a></li>
+          <li><a href="blog.html" class="site-footer__link">Blog</a></li>
+          <li><a href="mentions-legales.html" class="site-footer__link">Mentions légales</a></li>
+          <li><a href="politique-confidentialite.html" class="site-footer__link">Confidentialité</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-footer__col-title">Contact</p>
+        <div class="site-footer__contact-item"><span class="site-footer__contact-icon" aria-hidden="true">📍</span><span>62 Avenue Marceau, 93700 Drancy</span></div>
+        <div class="site-footer__contact-item"><span class="site-footer__contact-icon" aria-hidden="true">📞</span><a href="tel:+33148315461">01 48 31 54 61</a></div>
+        <div class="site-footer__contact-item"><span class="site-footer__contact-icon" aria-hidden="true">✉️</span><a href="mailto:topdriver93700@yahoo.com">topdriver93700@yahoo.com</a></div>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <p class="site-footer__copy">© <span id="footer-year">2024</span> KAIS (TOP DRIVER) — SIRET 538 931 296 00015.</p>
+      <nav class="site-footer__legal" aria-label="Liens légaux">
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="politique-confidentialite.html">Confidentialité</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
